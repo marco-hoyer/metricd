@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+# Simple IS24 metricd Service Script
+# chkconfig: - 99 15
+# description: metricd - Perfdata transport daemon sending data from icinga to graphite
+# pidfile: /var/run/jstatd.pid
+### BEGIN INIT INFO
+# Provides:          metricd
+# Required-Start:    $local_fs $remote_fs $syslog $named $network $time
+# Required-Stop:     $local_fs $remote_fs $syslog $named $network
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+SERVICE_USER=${SERVICE_USER:="metricd"}
+PID_FILE=${PID_FILE:=/var/run/metricd.pid}
+LOG_FILE=${LOG_FILE:=/data/logs/metricd/metricd.log}
+LOCK_FILE=${LOCK_FILE:=/var/lock/metricd.lock}
+CONF_FILE=${CONF_FILE:=/etc/metricd/metricd.conf}
+PYTHON=`/usr/bin/which python`
+
+# use RH std. functions like killproc, status, success and failure
+. /etc/rc.d/init.d/functions
+
+case "$1" in
+start)
+        echo -n "Starting metricd..."
+        # daemonize -u "$SERVICE_USER" -p "$PID_FILE" ${PYTHON} ${EXEC} && success || failure
+	daemonize -u "$SERVICE_USER" -o "$LOG_FILE" -e "$LOG_FILE" -l "$LOCK_FILE" -p "$PID_FILE" $PYTHON /opt/metricd/Metric.py $CONF_FILE && success || failure
+        echo
+
+;;
+stop)
+        echo -n "Stopping metricd..."
+        killproc -p "$PID_FILE" metricd && success || failure
+        echo
+;;
+status)
+        status -p "$PID_FILE" metricd
+;;
+
+restart)
+        $0 stop && sleep 1 ; $0 start
+;;
+
+*)
+             echo "Usage: $0 {start|stop|restart|status}"
+             exit 1
+esac

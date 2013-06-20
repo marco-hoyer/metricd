@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/prod/!svn/ver/31072/source/is24-metricd/is24-metricd-1.1
+END
+CarbonFormatter.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/CarbonFormatter.py
+END
+CarbonFormatterTest.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/CarbonFormatterTest.py
+END
+MetricTester.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/MetricTester.py
+END
+metric
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/metric
+END
+Metric.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/Metric.py
+END
+testmetric.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/testmetric.py
+END
+metricd.conf.sample
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/metricd.conf.sample
+END
+IcingaParser.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/prod/!svn/ver/31072/source/is24-metricd/is24-metricd-1.1/IcingaParser.py
+END
+IcingaParserTest.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/IcingaParserTest.py
+END
+metricd.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/prod/!svn/ver/30579/source/is24-metricd/is24-metricd-1.1/metricd.py
+END
