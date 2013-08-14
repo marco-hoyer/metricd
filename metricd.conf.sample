@@ -1,0 +1,7 @@
+[graphite]
+carbon_server 	= localhost
+carbon_port	= 2003
+metric_prefix = icinga
+
+[icinga]
+perfdata_pipe	= /tmp/icinga-perfdata

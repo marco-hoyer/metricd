@@ -30,9 +30,14 @@ class Metric:
 		parser.add_argument('config_file')
 		self.args = parser.parse_args()
 
-	def parse_config(self):
+	def parse_config(self, config_file):
 		self.config = ConfigParser.RawConfigParser()
-		self.config.read(self.args.config_file)
+		if config_file:
+			# use config file parameter (for unit testing)
+			self.config.read(config_file)
+		else:
+			# use config file argument (for normal runtime usage)
+			self.config.read(self.args.config_file)
 
 	def connection_init(self):
 		try:
@@ -55,7 +60,7 @@ class Metric:
 					line = f.readline()
 					if line:
 						self.logger.debug('in: %s' % line)
-						formatted = self.carbonFormatter.format(self.icingaParser.parse(line))
+						formatted = self.carbonFormatter.format(self.config.get('graphite','metric_prefix'), self.icingaParser.parse(line))
 						if formatted:
 							for l in formatted:
 								self.logger.debug('out: %s' % l)
