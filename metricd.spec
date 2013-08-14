@@ -7,8 +7,8 @@
 
 Name: metricd
 Summary: A simple python daemon parsing icinga perfdata and redirecting them to graphite
-Version: 1.1
-Release: 8
+Version: 1.0
+Release: 1
 License: GPL 
 Group: is24
 BuildArch: noarch
@@ -72,19 +72,5 @@ chmod 777 /data/spool/icinga-perfdata || :
 /sbin/chkconfig --add metricd
 
 %changelog
-* Wed Jun 19 2013 Thomas Lehmann <thomas.lehmann@immobilienscout24.de>
-- added metricd to default runlevel
-* Tue Jun 11 2013 Marco Hoyer <marco.hoyer@immobilienscout24.de>
-- modified spec to let metricd run as user metricd
-* Mon Jun 10 2013 Claudia Vogt <claudia.vogt@immobilienscout24.de>
-- delete fucking shit
-- useradd for icinga
-* Fri Jun 07 2013 Claudia Vogt <claudia.vogt@immobilienscout24.de>
-- add icinga user
-* Fri Jun 07 2013 Claudia Vogt <claudia.vogt@immobilienscout24.de>
-- add requirement icinga
-* Mon Jun 03 2013 Marco Hoyer <marco.hoyer@immobilienscout24.de>
-- added function-group to top of graphite target
-- added lowercasing of graphite targets
 * Fri May 31 2013 Marco Hoyer <marco.hoyer@immobilienscout24.de>
 - initial release
