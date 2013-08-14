@@ -1,0 +1,6 @@
+[graphite]
+carbon_server 	= tuvgrp02
+carbon_port	= 2003
+
+[icinga]
+perfdata_pipe	= /data/spool/icinga-perfdata
