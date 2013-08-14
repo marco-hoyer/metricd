@@ -35,8 +35,13 @@ class Metric:
 		self.config.read(self.args.config_file)
 
 	def connection_init(self):
-		self.logger.info('Connecting to graphite host %s:%s',self.config.get('graphite','carbon_server'),self.config.get('graphite','carbon_port'))
-		self.sock.connect((self.config.get('graphite','carbon_server'), self.config.getint('graphite','carbon_port')))
+		try:
+			self.logger.info('Connecting to graphite host %s:%s',self.config.get('graphite','carbon_server'),self.config.get('graphite','carbon_port'))
+			self.sock.connect((self.config.get('graphite','carbon_server'), self.config.getint('graphite','carbon_port')))
+		except socket.gaierror as e:
+			self.logger.error("Unable to connect to graphite: %s" % e.strerror)
+		except:
+			self.logger.error("Unexpected error: %s" % sys.exc_info()[0])
 
 	def connection_close(self):
 		self.logger.info('Closing connection to graphite host')
@@ -46,14 +51,20 @@ class Metric:
 		timestamp = int(time.time())
 		with open(self.config.get('icinga','perfdata_pipe'), 'r') as f:
 			while True:
-				line = f.readline()
-				if line:
-					self.logger.debug('in: %s' % line)
-					formatted = self.carbonFormatter.format(self.icingaParser.parse(line))
-					if formatted:
-						for l in formatted:
-							self.logger.debug('out: %s' % l)
-							self.sock.sendall(l)
+				try:
+					line = f.readline()
+					if line:
+						self.logger.debug('in: %s' % line)
+						formatted = self.carbonFormatter.format(self.icingaParser.parse(line))
+						if formatted:
+							for l in formatted:
+								self.logger.debug('out: %s' % l)
+								self.sock.sendall(l)
+				except socket.error as e:
+					self.logger.error("Lost connection to graphite: %s" % e.strerror)
+					self.connection_init()
+				except:
+					self.logger.error("Unexpected error: %s" % sys.exc_info()[0])
 		
 if __name__ == '__main__':
 	metric = Metric()
