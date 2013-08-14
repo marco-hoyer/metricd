@@ -75,7 +75,7 @@ if __name__ == '__main__':
 	metric = Metric()
 	metric.parse_arguments()
 	metric.init_logger()
-	metric.parse_config()
+	metric.parse_config(None)
 	metric.connection_init()
 	metric.perfdata_read()
 	metric.connection_close()
