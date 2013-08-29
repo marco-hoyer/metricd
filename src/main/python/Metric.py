@@ -8,6 +8,7 @@ import time
 import thread
 import re
 import logging
+import sys
 
 import CarbonFormatter
 import IcingaParser
