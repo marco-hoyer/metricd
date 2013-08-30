@@ -1,4 +1,4 @@
-from pybuilder.core import use_plugin
+from pybuilder.core import use_plugin, init, Author
 
 use_plugin("python.install_dependencies")
 use_plugin("copy_resources")
