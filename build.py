@@ -8,3 +8,17 @@ use_plugin("python.unittest")
 use_plugin("python.pylint")
 use_plugin("python.distutils")
 default_task = "publish"
+
+authors = [Author('Marco Hoyer', 'marco.hoyer@immobilienscout24.de')]
+description = """metricd - a simple proxy sending perfdata offered by nagios or icinga to graphite
+
+for more documentation, visit https://github.com/marco-hoyer/metricd
+"""
+
+name = 'metricd'
+license = 'GNU GPL v3'
+summary = 'metricd - perfdata proxy for Nagios/Icinga'
+url = 'https://github.com/marco-hoyer/metricd'
+version = '1.0'
+
+default_task = ['analyze', 'publish']
