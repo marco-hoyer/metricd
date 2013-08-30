@@ -7,7 +7,6 @@ use_plugin("python.unittest")
 #use_plugin("python.coverage")
 use_plugin("python.pylint")
 use_plugin("python.distutils")
-default_task = "publish"
 
 authors = [Author('Marco Hoyer', 'marco.hoyer@immobilienscout24.de')]
 description = """metricd - a simple proxy sending perfdata offered by nagios or icinga to graphite
@@ -22,3 +21,11 @@ url = 'https://github.com/marco-hoyer/metricd'
 version = '1.0'
 
 default_task = ['analyze', 'publish']
+
+@init(environments='teamcity')
+def set_properties_for_teamcity_builds(project):
+    import os
+    project.version = '%s-%s' % (project.version, os.environ.get('BUILD_NUMBER', 0))
+    project.default_task = ['install_build_dependencies', 'publish']
+    project.set_property('install_dependencies_index_url', os.environ.get('PYPIPROXY_URL'))
+    project.set_property('install_dependencies_use_mirrors', False)
