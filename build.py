@@ -1,12 +1,11 @@
 from pybuilder.core import use_plugin, init, Author
 
 use_plugin("python.install_dependencies")
-use_plugin("copy_resources")
 use_plugin("python.core")
 use_plugin("python.unittest")
-use_plugin("python.coverage")
-use_plugin("python.pylint")
 use_plugin("python.distutils")
+use_plugin('copy_resources')
+use_plugin('filter_resources')
 
 authors = [Author('Marco Hoyer', 'marco.hoyer@immobilienscout24.de')]
 description = """metricd - a simple proxy sending perfdata offered by nagios or icinga to graphite
@@ -32,6 +31,21 @@ def initialize(project):
     project.install_file('/etc/metricd/', 'metricd/metricd.conf.sample')
     project.install_file('/etc/init.d/', 'metricd/metricd')
     project.install_file('/etc/logrotate.d/', 'metricd/metricd-logrotate')
+    
+    project.set_property('distutils_classifiers', [
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'Programming Language :: Python',
+        'Natural Language :: English',
+        'Operating System :: POSIX :: Linux',
+        'Topic :: System :: Monitoring',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+    ])
 
 
 @init(environments='teamcity')
