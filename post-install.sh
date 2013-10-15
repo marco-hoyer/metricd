@@ -1,3 +1,4 @@
+#!/bin/bash
 # create fifo named pipe for icinga perfdata
 mkfifo /var/spool/icinga-perfdata || :
 chown metricd:admins /var/spool/icinga-perfdata || :

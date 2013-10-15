@@ -26,6 +26,8 @@ def initialize(project):
     
     project.set_property('copy_resources_target', '$dir_dist')
     project.get_property('copy_resources_glob').append('setup.cfg')
+    project.get_property('copy_resources_glob').append('pre-install.sh')
+    project.get_property('copy_resources_glob').append('post-install.sh')
     project.set_property('dir_dist_scripts', 'scripts')
 
     project.install_file('/etc/metricd/', 'metricd/metricd.conf.sample')
