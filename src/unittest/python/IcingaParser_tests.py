@@ -1,5 +1,5 @@
 import unittest
-from IcingaParser import IcingaParser
+from metricd.IcingaParser import IcingaParser
 
 class IcingaParserTest(unittest.TestCase):
 

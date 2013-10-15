@@ -1,5 +1,5 @@
 import unittest
-from CarbonFormatter import CarbonFormatter
+from metricd.CarbonFormatter import CarbonFormatter
 
 class CarbonFormatterTest(unittest.TestCase):
 	
