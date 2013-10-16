@@ -34,7 +34,7 @@ class Metric:
 	def parse_arguments(self):
 		parser = argparse.ArgumentParser()
 		parser.add_argument('config', help="Config file for basic daemon configuration", type=str, default = "../../../../res/metricd.conf.sample")
-		parser.add_argument('--debug', help="Activate debug output", action="store_true", default = True)
+		parser.add_argument('--debug', help="Activate debug output", action="store_true", default = False)
 		self.args = parser.parse_args()
 
 	def parse_config(self, config_file):
