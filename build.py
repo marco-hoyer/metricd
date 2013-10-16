@@ -32,7 +32,6 @@ def initialize(project):
 
     project.install_file('/etc/metricd/', 'metricd/metricd.conf.sample')
     project.install_file('/etc/init.d/', 'metricd/metricd')
-    project.install_file('/etc/logrotate.d/', 'metricd/metricd-logrotate')
     
     project.set_property('distutils_classifiers', [
         'Development Status :: 4 - Beta',
