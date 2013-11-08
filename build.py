@@ -6,6 +6,7 @@ use_plugin("python.unittest")
 use_plugin("python.distutils")
 use_plugin('copy_resources')
 use_plugin('filter_resources')
+use_plugin("python.coverage")
 
 authors = [Author('Marco Hoyer', 'marco.hoyer@immobilienscout24.de')]
 description = """metricd - a simple proxy sending perfdata offered by nagios or icinga to graphite
@@ -23,7 +24,7 @@ default_task = ['publish']
 
 @init
 def initialize(project):
-    
+
     project.set_property('copy_resources_target', '$dir_dist')
     project.get_property('copy_resources_glob').append('setup.cfg')
     project.get_property('copy_resources_glob').append('pre-install.sh')
@@ -32,7 +33,7 @@ def initialize(project):
 
     project.install_file('/etc/metricd/', 'metricd/metricd.conf.sample')
     project.install_file('/etc/init.d/', 'metricd/metricd')
-    
+
     project.set_property('distutils_classifiers', [
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
