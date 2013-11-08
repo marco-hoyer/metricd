@@ -1,17 +1,18 @@
 import unittest
 from metricd.CarbonFormatter import CarbonFormatter
 
+
 class CarbonFormatterTest(unittest.TestCase):
 
     def test_convert_string(self):
         formatter = CarbonFormatter()
-        self.assertEquals(formatter.convert_string("ping"),"ping")
-        self.assertEquals(formatter.convert_string("system ping"),"system_ping")
-        self.assertEquals(formatter.convert_string("System"),"system")
-        self.assertEquals(formatter.convert_string("PL"),"pl")
-        self.assertEquals(formatter.convert_string(""),"")
-        self.assertEquals(formatter.convert_string(" a b c "),"a_b_c")
-        self.assertEquals(formatter.convert_string(" "),"")
+        self.assertEquals(formatter.convert_string("ping"), "ping")
+        self.assertEquals(formatter.convert_string("system ping"), "system_ping")
+        self.assertEquals(formatter.convert_string("System"), "system")
+        self.assertEquals(formatter.convert_string("PL"), "pl")
+        self.assertEquals(formatter.convert_string(""), "")
+        self.assertEquals(formatter.convert_string(" a b c "), "a_b_c")
+        self.assertEquals(formatter.convert_string(" "), "")
 
     def test_format_carbon_lines(self):
         formatter = CarbonFormatter()
