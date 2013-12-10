@@ -3,8 +3,7 @@ from metricd.IcingaParser import IcingaParser
 
 class IcingaParserStringCleanupTest(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(self):
+    def setUp(self):
         self.parser = IcingaParser()
 
     def test_string_with_dots(self):
