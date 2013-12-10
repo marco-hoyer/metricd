@@ -4,9 +4,9 @@ from metricd.IcingaParser import IcingaParser
 class IcingaParserTest(unittest.TestCase):
 
     @classmethod
-    def setUpClass(cls):
-        cls.parser = IcingaParser()
-        cls.result = cls.parser.parse('tuvdbs50|Ping|rta=0.888000ms;3000.000000;5000.000000;0.000000 pl=0%;80;100;0|1364909110')
+    def setUpClass(self):
+        self.parser = IcingaParser()
+        self.result = self.parser.parse('tuvdbs50|Ping|rta=0.888000ms;3000.000000;5000.000000;0.000000 pl=0%;80;100;0|1364909110')
 
     def test_parses_hostname(self):
         self.assertEquals(self.result.get('hostname'), 'tuvdbs50')
