@@ -3,8 +3,7 @@ from metricd.Metricd import Metricd
 
 class MetricdTest(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(self):
+    def setUp(self):
         self.metricd = Metricd()
         self.metricd.init_logger()
 
