@@ -2,12 +2,19 @@
 
 import re
 import logging
+import string
 
 class IcingaParser():
 
 	def __init__(self):
 		self.non_decimal = re.compile(r'[^\d.]+')
 		self.logger = logging.getLogger(__name__)
+		
+	def cleanString(self, raw_string):
+		# this list equals string.punctuation but doesn't include underscores f.e. cause they are allowed
+		exclude = set("!\"#$%&'()*+,./:;<=>?@[\]^`{|}~")
+		clean_string = ''.join(character for character in raw_string if character not in exclude)
+		return clean_string.lower()
 
 	def parse(self,raw_data):
 		parsed_data = {}
@@ -15,8 +22,8 @@ class IcingaParser():
 		if len(fields) != 4:
 			self.logger.warn('Invalid perfdata format: ' + raw_data.rstrip())
 			return None
-		parsed_data['hostname'] = fields[0]
-		parsed_data['servicename'] = fields[1].lower()
+		parsed_data['hostname'] = self.cleanString(fields[0])
+		parsed_data['servicename'] = self.cleanString(fields[1])
 		
 		metrics_str = fields[2].split()
 		metrics = []
@@ -24,7 +31,7 @@ class IcingaParser():
 			(name_with_value, separator, rest) = metric_str.partition(';')
 			(name, separator, value_with_unit) = name_with_value.partition('=')
 			metric = {}
-			metric['name'] = name
+			metric['name'] = self.cleanString(name)
 			metric['value'] = self.non_decimal.sub('', value_with_unit)
 			# check if both, name and value, contain anything
 			if not len(metric['name']) == 0 and not len(metric['value']) == 0:

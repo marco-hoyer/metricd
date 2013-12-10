@@ -28,7 +28,7 @@ case "$1" in
 start)
         echo -n "Starting metricd..."
         # daemonize -u "$SERVICE_USER" -p "$PID_FILE" ${PYTHON} ${EXEC} && success || failure
-	daemonize -u "$SERVICE_USER" -o "$LOG_FILE" -e "$LOG_FILE" -l "$LOCK_FILE" -p "$PID_FILE" $PYTHON /usr/lib/python2.6/site-packages/metricd/Metric.py $CONF_FILE && success || failure
+	daemonize -u "$SERVICE_USER" -o "$LOG_FILE" -e "$LOG_FILE" -l "$LOCK_FILE" -p "$PID_FILE" $PYTHON /usr/lib/python2.6/site-packages/metricd/Metricd.py $CONF_FILE && success || failure
         echo
 
 ;;

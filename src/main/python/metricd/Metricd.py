@@ -11,7 +11,7 @@ import sys
 from CarbonFormatter import CarbonFormatter
 from IcingaParser import IcingaParser
 
-class Metric:
+class Metricd:
 
 	def __init__(self):
 		self.non_decimal = re.compile(r'[^\d.]+')
@@ -94,22 +94,24 @@ class Metric:
 	def connection_close(self):
 		self.logger.info('Closing connection to graphite host')
 		self.sock.close()	
+		
+	def send_datapoints(self, raw_datapoints):
+		self.logger.debug('In: ' + raw_datapoints.rstrip())
+		formatted_datapoints = self.carbonFormatter.format(self.get_config('graphite','metric_prefix'), self.icingaParser.parse(raw_datapoints))
+		if formatted_datapoints:
+			for datapoint in formatted_datapoints:
+				self.logger.debug('Out: ' + datapoint.rstrip())
+				self.sock.sendall(datapoint)
 
-	def perfdata_read(self):
+	def read_perfdata(self):
 		self.connection_init()
 		timestamp = int(time.time())
 		self.logger.debug("Sending metrics with timestamp: " + str(timestamp))
 		with open(self.get_config('icinga','perfdata_pipe'), 'r') as f:
 			while True:
 				try:
-					line = f.readline()
-					if line:
-						self.logger.debug('In: ' + line.rstrip())
-						formatted = self.carbonFormatter.format(self.get_config('graphite','metric_prefix'), self.icingaParser.parse(line))
-						if formatted:
-							for l in formatted:
-								self.logger.debug('Out: ' + l.rstrip())
-								self.sock.sendall(l)
+					raw_datapoints = f.readline()
+					self.send_datapoints(raw_datapoints)
 				except socket.error as e:
 					self.logger.error("Lost connection to graphite: " + str(e))
 					self.connection_reconnect()
@@ -118,11 +120,11 @@ class Metric:
 					self.connection_reconnect()
 
 if __name__ == '__main__':
-	metric = Metric()
-	metric.init_logger()
-	metric.parse_arguments()
-	metric.parse_config(metric.args.config)
-	metric.set_log_level(metric.args.debug)
-	metric.perfdata_read()
-	metric.connection_close()
+	metricd = Metricd()
+	metricd.init_logger()
+	metricd.parse_arguments()
+	metricd.parse_config(metricd.args.config)
+	metricd.set_log_level(metricd.args.debug)
+	metricd.read_perfdata()
+	metricd.connection_close()
 	
