@@ -9,6 +9,8 @@ class CarbonFormatter():
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.default_hostname_pattern = re.compile(r"[A-Za-z]{6}[0-9]{2}")
+        self.network_device_pattern = re.compile(r"[A-Za-z]{3}-[A-Za-z]{2}-[A-Za-z]{3}[0-9]{2}")
+        self.generic_device_pattern = re.compile(r"[A-Za-z0-9]*-[A-Za-z0-9]*-[A-Za-z0-9]*")
 
     def convert_string(self, string):
         return "_".join(string.split()).lower()
@@ -17,8 +19,12 @@ class CarbonFormatter():
     def get_type_from_hostname(self, hostname):
         if self.default_hostname_pattern.match(hostname):
             return hostname[3:-2]
+        elif self.network_device_pattern.match(hostname):
+            return hostname[4:6] + '.' + hostname[-5:-2]
+        elif self.generic_device_pattern.match(hostname):
+            return hostname.split('-')[1]
         else:
-            return ""
+            return ''
 
     def format(self, metric_prefix, parsed_data):
         if parsed_data is None:
