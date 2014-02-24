@@ -6,13 +6,13 @@ class CarbonFormatterTest(unittest.TestCase):
 
     def test_convert_string(self):
         formatter = CarbonFormatter()
-        self.assertEquals(formatter.convert_string("ping"), "ping")
-        self.assertEquals(formatter.convert_string("system ping"), "system_ping")
-        self.assertEquals(formatter.convert_string("System"), "system")
-        self.assertEquals(formatter.convert_string("PL"), "pl")
-        self.assertEquals(formatter.convert_string(""), "")
-        self.assertEquals(formatter.convert_string(" a b c "), "a_b_c")
-        self.assertEquals(formatter.convert_string(" "), "")
+        self.assertEquals(formatter.clean_string("ping"), "ping")
+        self.assertEquals(formatter.clean_string("system ping"), "system_ping")
+        self.assertEquals(formatter.clean_string("System"), "system")
+        self.assertEquals(formatter.clean_string("PL"), "pl")
+        self.assertEquals(formatter.clean_string(""), "")
+        self.assertEquals(formatter.clean_string(" a b c "), "a_b_c")
+        self.assertEquals(formatter.clean_string(" "), "")
 
     def test_get_type_from_hostname(self):
         formatter = CarbonFormatter()
