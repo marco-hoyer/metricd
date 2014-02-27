@@ -78,6 +78,25 @@ class IcingaParserTest(unittest.TestCase):
     def test_clean_string_with_special_characters(self):
         self.assertEquals('active_service_checks', self.parser._strip_invalid_characters("active_service_checks"))
 
+    def test_validate_metrics_count(self):
+        raw_data = "a=1"
+        metrics = ['']
+        self.assertTrue(self.parser._validate_metrics_count(raw_data, metrics))
+
+    def test_validate_metrics_count_without_metrics(self):
+        raw_data = ""
+        metrics = []
+        self.assertTrue(self.parser._validate_metrics_count(raw_data, metrics))
+
+    def test_validate_metrics_count_with_multiple_metrics(self):
+        raw_data = "a=0 c=1 e=2"
+        metrics = ['','','']
+        self.assertTrue(self.parser._validate_metrics_count(raw_data, metrics))
+
+    def test_validate_metrics_count_with_mismatch(self):
+        raw_data = "a=0 c=1 e=2"
+        metrics = ['','']
+        self.assertFalse(self.parser._validate_metrics_count(raw_data, metrics))
 
 if __name__ == '__main__':
     unittest.main()

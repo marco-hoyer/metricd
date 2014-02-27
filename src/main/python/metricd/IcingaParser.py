@@ -29,6 +29,15 @@ class IcingaParser():
         else:
             return False
 
+    def _validate_metrics_count(self, raw_data, metrics):
+        expected_metrics = raw_data.count('=')
+        found_metrics = len(metrics)
+        if expected_metrics != found_metrics:
+            self.logger.warn("Error parsing perfdata, expected %d metrics but parsed %d!" % (expected_metrics, found_metrics))
+            return False
+        else:
+            return True
+
     def _parse_perfdata_string(self, perfdata_string):
         parsed_perfdata = re.findall(self.perfdata_pattern, perfdata_string)
 
@@ -63,6 +72,8 @@ class IcingaParser():
                 self.logger.warn(
                     "Parsed invalid metric for: " + parsed_data['hostname'] + "." + parsed_data['servicename'] + "." +
                     metric['name'] + " (value was: " + metric['value'] + " )")
+
+        self._validate_metrics_count(raw_data, metrics)
 
         parsed_data['metrics'] = metrics
         parsed_data['timestamp'] = raw_data_fields[3].rstrip()
