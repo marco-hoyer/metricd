@@ -38,6 +38,10 @@ class IcingaParserTest(unittest.TestCase):
         perfdata_string='a=0%;;;; a b=10.1%;10;20;30; metric=0,1'
         self.assertEqual([('a', '0'), (' a b', '10.1'), (' metric', '0,1')], self.parser._parse_perfdata_string(perfdata_string))
 
+    def test_parse_perfdata_string_with_three_separators(self):
+        perfdata_string='time=0.004983s;;10.000000;0.000000 size=206B;;;0'
+        self.assertEqual([('time', '0.004983'), (' size', '206')], self.parser._parse_perfdata_string(perfdata_string))
+
     def test_parse_perfdata_string_with_special_characters_in_key(self):
         perfdata_string='my super_test-metric=0,1'
         self.assertEqual([('my super_test-metric', '0,1')], self.parser._parse_perfdata_string(perfdata_string))
