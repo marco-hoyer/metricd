@@ -29,16 +29,30 @@ class IcingaParserTest(unittest.TestCase):
         metrics = result.get('metrics')
 
         self.assertEquals(len(metrics), 13)
-        #self.assertEquals('01-Inlet Ambient', metrics[0].get('name'))
-        #self.assertEquals('16.00', metrics[0].get('value'))
+        self.assertEquals('01-Inlet Ambient', metrics[0].get('name'))
+        self.assertEquals('16.00', metrics[0].get('value'))
+        self.assertEquals('02-CPU 1', metrics[1].get('name'))
+        self.assertEquals('40.00', metrics[1].get('value'))
 
-    def test_perfdata_string_is_valid_with_simple_key_value_pair(self):
-        perfdata_string='a=0'
-        self.assertTrue(self.parser._perfdata_string_is_valid(perfdata_string), perfdata_string + " is not evaluated as valid perfdata string")
+    def test_parse_perfdata_string(self):
+        perfdata_string='a=0%;;;; a b=10.1%;10;20;30; metric=0,1'
+        self.assertEqual([('a', '0'), (' a b', '10.1'), (' metric', '0,1')], self.parser._parse_perfdata_string(perfdata_string))
 
-    def test_perfdata_string_is_invalid_with_key_only(self):
-        perfdata_string='a'
-        self.assertFalse(self.parser._perfdata_string_is_valid(perfdata_string), perfdata_string + " is not evaluated as invalid perfdata string")
+    def test_parse_perfdata_string_with_special_characters_in_key(self):
+        perfdata_string='my super_test-metric=0,1'
+        self.assertEqual([('my super_test-metric', '0,1')], self.parser._parse_perfdata_string(perfdata_string))
+
+    def test_parse_perfdata_string_with_invalid_string(self):
+        perfdata_string='a=a'
+        self.assertEqual([], self.parser._parse_perfdata_string(perfdata_string))
+
+    def test_parse_perfdata_string_with_empty_string(self):
+        perfdata_string='a=0%;;;; ab'
+        self.assertEqual([('a', '0')], self.parser._parse_perfdata_string(perfdata_string))
+
+    def test_parse_perfdata_string_with_invalid_substring(self):
+        perfdata_string=''
+        self.assertEqual([], self.parser._parse_perfdata_string(perfdata_string))
 
     def test_clean_string__with_dots(self):
         self.assertEquals('tuvdbs50rzis', self.parser._strip_invalid_characters(".tuvdbs.50.rz.is"))
@@ -46,12 +60,12 @@ class IcingaParserTest(unittest.TestCase):
     def test_metric_string_is_valid(self):
         metric_string = "hoaweb01|Application Status|response_time=0.001|1393251634"
         #metric_string = "a|b|c|1"
-        self.assertTrue(self.parser._metric_string_is_valid(metric_string))
+        self.assertTrue(self.parser._icinga_output_string_is_valid(metric_string))
 
     def test_metric_string_is_invalid(self):
         metric_string = "hoaweb01|Application Status|response_time=0.001"
         #metric_string = "a|b|c|1"
-        self.assertFalse(self.parser._metric_string_is_valid(metric_string))
+        self.assertFalse(self.parser._icinga_output_string_is_valid(metric_string))
 
     def test_clean_string_with_special_characters(self):
         self.assertEquals('active_service_checks', self.parser._strip_invalid_characters("active_service_checks"))
