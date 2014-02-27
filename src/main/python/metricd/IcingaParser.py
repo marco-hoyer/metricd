@@ -8,7 +8,7 @@ class IcingaParser():
     def __init__(self):
         self.non_decimal = re.compile(r'[^\d.]+')
         self.logger = logging.getLogger(__name__)
-        self.perfdata_pattern = re.compile(r'([a-zA-Z0-9\s\-\_]+)=(([0-9]+)(([\.|,]?)([0-9]*))?)([a-zA-Z]*|%)(;(([0-9]+)([\.|,]?)([0-9]*))?){,4}')
+        self.perfdata_pattern = re.compile(r'([a-zA-Z0-9\s\-\_]+)=(\-?([0-9]+)(([\.|,]?)([0-9]*))?)([a-zA-Z]*|%)(;(\-?([0-9]+)([\.|,]?)([0-9]*))?){,4}')
 
 
     def _strip_invalid_characters(self, raw_string):
