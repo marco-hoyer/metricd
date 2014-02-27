@@ -62,5 +62,15 @@ class CarbonFormatterTest(unittest.TestCase):
         self.assertEquals(result[1],
                 'super.my-super-uplink.icinga.system_ping.metric_with_spaces 0 1364909110\n')
 
+    def test_metric_with_negative_value(self):
+        formatter = CarbonFormatter()
+        metric = {'metrics': [{'name': 'offset', 'value': '-0.888000'}],
+                  'timestamp': '1364909110',
+                  'hostname': 'my-super-host',
+                  'servicename': 'ntp_time'}
+        result = formatter.format('icinga', metric)
+        self.assertEquals(len(result), 1)
+        self.assertEquals('super.my-super-host.icinga.ntp_time.offset -0.888000 1364909110\n', result[0])
+
 if __name__ == '__main__':
     unittest.main()
