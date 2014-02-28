@@ -17,12 +17,15 @@ class CarbonFormatter():
         string = "_".join(string.split()).lower()
         return string
 
+    def _get_short_hostname(self, hostname):
+        return hostname.split('.')[0]
 
     def get_type_from_hostname(self, hostname):
+        hostname = self._get_short_hostname(hostname)
         if self.default_hostname_pattern.match(hostname):
             return hostname[3:-2]
         elif self.network_device_pattern.match(hostname):
-            return hostname[4:6] + '.' + hostname[-5:-2]
+            return hostname[4:6] + '-' + hostname[-5:-2]
         elif self.generic_device_pattern.match(hostname):
             return hostname.split('-')[1]
         else:
@@ -37,7 +40,7 @@ class CarbonFormatter():
 
             metric_string = '%s.%s.%s.%s.%s %s %s\n' % (
                 self.clean_string(self.get_type_from_hostname(parsed_data['hostname'])),
-                self.clean_string(parsed_data['hostname']),
+                self.clean_string(self._get_short_hostname(parsed_data['hostname'])),
                 self.clean_string(metric_prefix),
                 self.clean_string(parsed_data['servicename']),
                 self.clean_string(metric['name']),

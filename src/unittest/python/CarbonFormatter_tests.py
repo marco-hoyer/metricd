@@ -17,9 +17,17 @@ class CarbonFormatterTest(unittest.TestCase):
 
     def test_get_type_from_hostname(self):
         formatter = CarbonFormatter()
-        self.assertEqual(formatter.get_type_from_hostname("devica99"),"ica")
-        self.assertEqual(formatter.get_type_from_hostname("ask-be-swt01"),'be.swt')
-        self.assertEqual(formatter.get_type_from_hostname("be-uplink-datacenter"),'uplink')
+        self.assertEqual("ica", formatter.get_type_from_hostname("devica99"))
+        self.assertEqual('be-swt', formatter.get_type_from_hostname("ask-be-swt01"))
+        self.assertEqual('uplink', formatter.get_type_from_hostname("be-uplink-datacenter"))
+        self.assertEqual('fe-vtm', formatter.get_type_from_hostname("ask-fe-vtm12"))
+
+    def test_get_short_hostname(self):
+        formatter = CarbonFormatter()
+        self.assertEqual('ask-fe-vtm12', formatter._get_short_hostname("ask-fe-vtm12.fe.dev.lan"))
+        self.assertEqual('devica99', formatter._get_short_hostname("devica99.local"))
+        self.assertEqual('devica99', formatter._get_short_hostname("devica99"))
+        self.assertEqual('', formatter._get_short_hostname(""))
 
     def test_format_carbon_lines(self):
         formatter = CarbonFormatter()
@@ -72,6 +80,16 @@ class CarbonFormatterTest(unittest.TestCase):
         result = formatter.format('icinga', metric)
         self.assertEquals(len(result), 1)
         self.assertEquals('super.my-super-host.icinga.ntp_time.offset -0.888000 1364909110\n', result[0])
+
+    def test_metric_with_network_device_hostname(self):
+        formatter = CarbonFormatter()
+        metric = {'metrics': [{'name': 'offset', 'value': '-0.888000'}],
+                  'timestamp': '1364909110',
+                  'hostname': 'ask-fe-vtm12.fe.dev.lan',
+                  'servicename': 'ntp_time'}
+        result = formatter.format('icinga', metric)
+        self.assertEquals(len(result), 1)
+        self.assertEquals('fe-vtm.ask-fe-vtm12.icinga.ntp_time.offset -0.888000 1364909110\n', result[0])
 
 if __name__ == '__main__':
     unittest.main()
