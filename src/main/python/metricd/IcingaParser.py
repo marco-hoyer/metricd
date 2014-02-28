@@ -50,7 +50,7 @@ class IcingaParser():
 
         parsed_data = {}
         if not self._icinga_output_string_is_valid(raw_data):
-            self.logger.warn('Invalid perfdata format: ' + str(raw_data.rstrip())) + "!"
+            self.logger.warn('Invalid perfdata format: %s!' % str(raw_data.rstrip()))
             return None
 
         raw_data_fields = raw_data.split('|')
