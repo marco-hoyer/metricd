@@ -4,15 +4,16 @@ from metricd.CarbonFormatter import CarbonFormatter
 
 class CarbonFormatterTest(unittest.TestCase):
 
-    def test_convert_string(self):
+    def test_clean_string(self):
         formatter = CarbonFormatter()
-        self.assertEquals(formatter.clean_string("ping"), "ping")
-        self.assertEquals(formatter.clean_string("system ping"), "system_ping")
-        self.assertEquals(formatter.clean_string("System"), "system")
-        self.assertEquals(formatter.clean_string("PL"), "pl")
-        self.assertEquals(formatter.clean_string(""), "")
-        self.assertEquals(formatter.clean_string(" a b c "), "a_b_c")
-        self.assertEquals(formatter.clean_string(" "), "")
+        self.assertEquals("ping", formatter.clean_string("ping"))
+        self.assertEquals("system_ping", formatter.clean_string("system ping"))
+        self.assertEquals("iso_3_6_1_4_1_3375_2_1_14_1_1_0", formatter.clean_string("iso.3.6.1.4.1.3375.2.1.14.1.1.0"))
+        self.assertEquals("system", formatter.clean_string("System"))
+        self.assertEquals("pl", formatter.clean_string("PL"))
+        self.assertEquals("", formatter.clean_string(""))
+        self.assertEquals("a_b_c", formatter.clean_string(" a b c "))
+        self.assertEquals("", formatter.clean_string(" "))
 
     def test_get_type_from_hostname(self):
         formatter = CarbonFormatter()

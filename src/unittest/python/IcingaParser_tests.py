@@ -50,6 +50,18 @@ class IcingaParserTest(unittest.TestCase):
         perfdata_string='my super_test-metric=0,1'
         self.assertEqual([('my super_test-metric', '0,1')], self.parser._parse_perfdata_string(perfdata_string))
 
+    def test_parse_perfdata_string_with_number_in_key(self):
+        perfdata_string='numacthstchecks5m=643'
+        self.assertEqual([('numacthstchecks5m', '643')], self.parser._parse_perfdata_string(perfdata_string))
+
+    def test_parse_perfdata_string_without_last_value(self):
+        perfdata_string='offset=-0.004035s;0.500000;0.800000;'
+        self.assertEqual([('offset', '-0.004035')], self.parser._parse_perfdata_string(perfdata_string))
+
+    def test_parse_perfdata_string_with_snmp_oid(self):
+        perfdata_string='iso.3.6.1.4.1.3375.2.1.14.1.1.0=2'
+        self.assertEqual([('iso.3.6.1.4.1.3375.2.1.14.1.1.0', '2')], self.parser._parse_perfdata_string(perfdata_string))
+
     def test_parse_perfdata_string_with_invalid_string(self):
         perfdata_string='a=a'
         self.assertEqual([], self.parser._parse_perfdata_string(perfdata_string))

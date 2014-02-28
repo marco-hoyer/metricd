@@ -13,7 +13,9 @@ class CarbonFormatter():
         self.generic_device_pattern = re.compile(r"[A-Za-z0-9]*-[A-Za-z0-9]*-[A-Za-z0-9]*")
 
     def clean_string(self, string):
-        return "_".join(string.split()).lower()
+        string = "_".join(string.split('.')).lower()
+        string = "_".join(string.split()).lower()
+        return string
 
 
     def get_type_from_hostname(self, hostname):
